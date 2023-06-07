@@ -5,8 +5,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.education.myproject1.model.User;
 import ru.education.myproject1.model.dto.UserCreateDto;
+import ru.education.myproject1.model.dto.UserDto;
 
-@NoArgsConstructor(access= AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UserMapper {
 
     private static final String defaultUserRole = "USER";
@@ -22,4 +23,10 @@ public final class UserMapper {
                 defaultUserRole);
     }
 
+    public static UserDto toUserDto(User user) {
+        return new UserDto(
+                user.getUsername(),
+                user.getEmail()
+        );
+    }
 }
