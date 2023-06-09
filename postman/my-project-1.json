@@ -49,7 +49,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user_1\",\r\n    \"password\": \"qwerty\",\r\n    \"matchingPassword\": \"qwerty\",\r\n    \"email\": \"user_1@user.com\"\r\n}",
+							"raw": "{\r\n    \"username\": \"user_1\",\r\n    \"password\": \"qwerty\",\r\n    \"matchingPassword\": \"qwerty\",\r\n    \"email\": \"user_1@user.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -108,7 +108,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"user_2\",\r\n    \"password\": \"mypassword\",\r\n    \"matchingPassword\": \"mypassword\",\r\n    \"email\": \"user_2@user.com\"\r\n}",
+							"raw": "{\r\n    \"username\": \"user_2\",\r\n    \"password\": \"mypassword\",\r\n    \"matchingPassword\": \"mypassword\",\r\n    \"email\": \"user_2@user.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
