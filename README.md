@@ -6,4 +6,5 @@ used stack
 - SpringSecurity
 - GitHubAction
 - Postman
+- Shell Script
 - -microservices
