@@ -6,4 +6,5 @@ import ru.education.myproject1.model.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    User findUserByUsername(String username);
 }
