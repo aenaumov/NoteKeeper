@@ -21,8 +21,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-#      - name: Checkout tests
-#        uses: actions/checkout@v3
+      - name: Checkout tests
+        uses: actions/checkout@v3
 #        with:
 #            repository: 'aenaumov/my-project-1'
 ##            ref: ${{ github.event.pull_request.head.ref }}
