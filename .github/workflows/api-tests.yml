@@ -32,20 +32,20 @@ jobs:
         run: |
 #            chmod a+x ./tests/.github/workflows/build.sh
 #            ./tests/.github/workflows/build.sh
-          chmod a+x ./.github/workflows/build.sh
-          ./.github/workflows/build.sh
+          chmod a+x aenaumov/my-project-1/.github/workflows/build.sh
+               aenaumov/my-project-1/.github/workflows/build.sh
 
 #      - name: Install newman
 #        run: |
 #          npm install -g newman
 #          npm install -g newman-reporter-htmlextra
 
-#      - name: Run Application
-#        run: |
-##            chmod a+x ./tests/.github/workflows/run.sh
-##            ./tests/.github/workflows/run.sh
-#          chmod a+x .github/workflows/run.sh
-#          .github/workflows/run.sh
+      - name: Run Application
+        run: |
+#            chmod a+x ./tests/.github/workflows/run.sh
+#            ./tests/.github/workflows/run.sh
+          chmod a+x aenaumov/my-project-1/.github/workflows/run.sh
+               aenaumov/my-project-1/.github/workflows/run.sh
 
 #      - name: Build with Maven
 #        run: mvn --batch-mode --update-snapshots package
