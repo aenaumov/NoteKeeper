@@ -40,12 +40,12 @@ jobs:
 #          npm install -g newman
 #          npm install -g newman-reporter-htmlextra
 
-#      - name: Run Application
-#        run: |
-##            chmod a+x ./tests/.github/workflows/run.sh
-##            ./tests/.github/workflows/run.sh
-#          chmod a+x .github/workflows/run.sh
-#          .github/workflows/run.sh
+      - name: Run Application
+        run: |
+#            chmod a+x ./tests/.github/workflows/run.sh
+#            ./tests/.github/workflows/run.sh
+          chmod a+x ./.github/workflows/run.sh
+          ./.github/workflows/run.sh
 
 #      - name: Build with Maven
 #        run: mvn --batch-mode --update-snapshots package
