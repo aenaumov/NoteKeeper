@@ -23,10 +23,10 @@ jobs:
 
       - name: Checkout tests
         uses: actions/checkout@v3
-#        with:
-#            repository: 'aenaumov/my-project-1'
-##            ref: ${{ github.event.pull_request.head.ref }}
-#            path: tests
+        with:
+            repository: 'aenaumov/my-project-1'
+#            ref: ${{ github.event.pull_request.head.ref }}
+            path: tests
 
 
       - name: Check and Build application
