@@ -33,10 +33,8 @@ jobs:
 
       - name: Check and Build application
         run: |
-#            chmod a+x ./tests/.github/workflows/build.sh
-#            ./tests/.github/workflows/build.sh
           chmod a+x ./.github/workflows/build.sh
-               ./.github/workflows/build.sh
+          ./.github/workflows/build.sh
           
       - name: Install Node
         uses: actions/setup-node@v1
