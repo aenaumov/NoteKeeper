@@ -20,8 +20,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots verify
+
+#      - name: Build with Maven
+#        run: mvn --batch-mode --update-snapshots verify
 
 #      - name: Checkout tests
 #        uses: actions/checkout@v3
@@ -30,12 +31,17 @@ jobs:
 #            ref: ${{ github.event.pull_request.head.ref }}
 #            path: tests
 
-#      - name: Check and Build application
-#        run: |
-##            chmod a+x ./tests/.github/workflows/build.sh
-##            ./tests/.github/workflows/build.sh
-#          chmod a+x /.github/workflows/build.sh
-#               /.github/workflows/build.sh
+      - name: Check and Build application
+        run: |
+#            chmod a+x ./tests/.github/workflows/build.sh
+#            ./tests/.github/workflows/build.sh
+          chmod a+x ./.github/workflows/build.sh
+               ./.github/workflows/build.sh
+          
+          - name: Install Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '16.x'
 
 #      - name: Install newman
 #        run: |
