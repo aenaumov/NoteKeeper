@@ -38,7 +38,7 @@ jobs:
           chmod a+x ./.github/workflows/build.sh
                ./.github/workflows/build.sh
           
-          - name: Install Node
+      - name: Install Node
         uses: actions/setup-node@v1
         with:
           node-version: '16.x'
