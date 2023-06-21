@@ -47,7 +47,7 @@ jobs:
           npm install -g newman-reporter-htmlextra
 
       - name: Run Application
-        run: nohup mvn spring-boot:run &>> console.log 2>&1 &
+        run: nohup mvn spring-boot:run -D >> console.log 2>&1 &
 
 #        |
 #          chmod a+x ./.github/workflows/run.sh
