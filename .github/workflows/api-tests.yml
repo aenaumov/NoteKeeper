@@ -61,7 +61,7 @@ jobs:
 
       - name: Run POSTMAN tests
         run: >
-          newman run /postman/my-project-1.json
+          newman run ./postman/my-project-1.json
           --delay-request 50 -r cli,htmlextra
 #          --verbose --color on --reporter-htmlextra-darkTheme
 #          --reporter-htmlextra-export reports/myProject.html
