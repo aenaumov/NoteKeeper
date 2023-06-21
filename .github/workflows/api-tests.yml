@@ -41,17 +41,15 @@ jobs:
         with:
           node-version: '16.x'
 
-#      - name: Install newman
-#        run: |
-#          npm install -g newman
-#          npm install -g newman-reporter-htmlextra
+      - name: Install newman
+        run: |
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
 
-#      - name: Run Application
-#        run: |
-##            chmod a+x ./tests/.github/workflows/run.sh
-##            ./tests/.github/workflows/run.sh
-#          chmod a+x aenaumov/my-project-1/.github/workflows/run.sh
-#               aenaumov/my-project-1/.github/workflows/run.sh
+      - name: Run Application
+        run: |
+          chmod a+x ./.github/workflows/run.sh
+          ./.github/workflows/run.sh
 
 #      - name: Build with Maven
 #        run: mvn --batch-mode --update-snapshots package
@@ -61,13 +59,12 @@ jobs:
 #          /tmp/wait-for-it.sh -t 60 localhost:8080
 #          echo "Application is up"
 
-#      - name: Run POSTMAN tests
-#        run: >
-##          newman run ./tests/postman/my-project-1.json
-#          newman run /postman/my-project-1.json
-#          --delay-request 50 -r cli,htmlextra
+      - name: Run POSTMAN tests
+        run: >
+          newman run /postman/my-project-1.json
+          --delay-request 50 -r cli,htmlextra
 #          --verbose --color on --reporter-htmlextra-darkTheme
-#          --reporter-htmlextra-export reports/shareIt.html
+#          --reporter-htmlextra-export reports/myProject.html
 #          --reporter-htmlextra-title "Отчет по тестам"
 #          --reporter-htmlextra-logs true
 #          --reporter-htmlextra-template ./tests/.github/workflows/dashboard-template.hbs
