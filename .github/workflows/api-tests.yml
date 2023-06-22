@@ -53,11 +53,9 @@ jobs:
           npm install -g newman-reporter-htmlextra
 
       - name: Run Application
-        run: nohup mvn spring-boot:run >> console.log 2>&1 &
-
-      #        |
-      #          chmod a+x ./.github/workflows/run.sh
-      #          ./.github/workflows/run.sh
+        run: |
+          chmod a+x ./.github/workflows/run.sh
+          ./.github/workflows/run.sh
 
       #      - name: Build with Maven
       #        run: mvn --batch-mode --update-snapshots package
