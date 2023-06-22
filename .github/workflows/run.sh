@@ -1,2 +1,5 @@
+cd resource
 nohup mvn spring-boot:run &
-#nohup mvn spring-boot:run -Dspring-boot.run.profiles=ci >> console.log 2>&1 &
+#mvn exec:java -Dexec.mainClass="ru.education.myproject1.MyProject1Application"
+
+#mvn spring-boot:run -Dspring-boot.run.mainClass=resource.ru.education.myproject1.MyProject1Application

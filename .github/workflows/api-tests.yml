@@ -57,14 +57,10 @@ jobs:
         run: |
           chmod a+x ./.github/workflows/run.sh
           ./.github/workflows/run.sh
+        shell: bash
 
       #      - name: Build with Maven
       #        run: mvn --batch-mode --update-snapshots package
-
-      #      - name: Waiting for application is up
-      #        run: |
-      #          /tmp/wait-for-it.sh -t 60 localhost:8080
-      #          echo "Application is up"
 
       - name: Waiting for application is up
         run: |
