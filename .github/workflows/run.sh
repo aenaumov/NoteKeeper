@@ -1,3 +1,4 @@
+cd resource
 nohup mvn spring-boot:run &
 #mvn exec:java -Dexec.mainClass="ru.education.myproject1.MyProject1Application"
 
