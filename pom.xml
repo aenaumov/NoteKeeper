@@ -19,6 +19,7 @@
 	</properties>
 	<modules>
 		<module>resource</module>
+		<module>authorization</module>
 	</modules>
 	<dependencies>
 		<dependency>
