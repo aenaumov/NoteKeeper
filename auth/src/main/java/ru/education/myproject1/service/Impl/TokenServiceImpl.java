@@ -16,7 +16,7 @@ import java.util.Date;
 @Service
 public class TokenServiceImpl implements TokenService {
 
-    private final Long TOKEN_LIFETIME = 5 * 60L; // 5 min
+    private final Long TOKEN_LIFETIME = 30 * 60L * 60 * 1000; // 30 min
 
     private final RSAKeyService rsaKeyService;
 
@@ -30,6 +30,8 @@ public class TokenServiceImpl implements TokenService {
         JWSSigner signer = rsaKeyService.getSigner();
 
         JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+                .claim("scope", "user:read")
+                .claim("role", "USER")
                 .subject("test")
                 .issuer("edu-project")
                 .expirationTime(new Date(new Date().getTime() + TOKEN_LIFETIME))
