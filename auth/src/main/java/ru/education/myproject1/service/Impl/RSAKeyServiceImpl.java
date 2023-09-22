@@ -13,6 +13,10 @@ public class RSAKeyServiceImpl implements RSAKeyService {
 
     private final RSAKey rsaKey;
 
+    public RSAKeyServiceImpl() {
+        this.rsaKey = rsaKeyPairGenerator();
+    }
+
     private RSAKey rsaKeyPairGenerator() {
         try {
             return new RSAKeyGenerator(2048)
@@ -21,10 +25,6 @@ public class RSAKeyServiceImpl implements RSAKeyService {
         } catch (JOSEException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public RSAKeyServiceImpl() {
-        this.rsaKey = rsaKeyPairGenerator();
     }
 
     @Override
@@ -36,9 +36,9 @@ public class RSAKeyServiceImpl implements RSAKeyService {
     public JWSSigner getSigner() {
         try {
             return new RSASSASigner(rsaKey);
-    } catch (JOSEException e) {
-        throw new RuntimeException(e);
-    }
+        } catch (JOSEException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
