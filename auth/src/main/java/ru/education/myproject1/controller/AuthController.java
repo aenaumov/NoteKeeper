@@ -3,6 +3,7 @@ package ru.education.myproject1.controller;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ru.education.myproject1.model.MyToken;
 import ru.education.myproject1.service.RSAKeyService;
 import ru.education.myproject1.service.TokenService;
 
@@ -18,9 +19,10 @@ public class AuthController {
     @Autowired
     private RSAKeyService rsaKeyService;
 
-    @GetMapping("/get")
-    public String getJWT() {
-        return tokenService.createJWT();
+    @PostMapping("/get")
+    public MyToken getJWT() {
+        final String jwt = tokenService.createJWT();
+        return new MyToken(jwt);
     }
 
     @GetMapping("/key")
