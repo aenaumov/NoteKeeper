@@ -25,7 +25,6 @@ public class ResourceController {
     @GetMapping("/{id}")
     public Flux<String> getAllNotesOfUser(@PathVariable Long id,
                                           @AuthenticationPrincipal Jwt principal) {
-        System.out.println("claims " + principal.getClaims());
 
         final Map<String, Object> claims = principal.getClaims();
         final String role = (String) claims.get("role");
