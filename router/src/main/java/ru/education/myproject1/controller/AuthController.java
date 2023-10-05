@@ -11,14 +11,14 @@ import ru.education.myproject1.service.AuthService;
 @Slf4j
 @RestController
 @AllArgsConstructor
-@RequestMapping("/auth/jwt")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired
     private AuthService authService;
 
-    @PostMapping("/get")
-    public Mono<String> getJwt(@RequestHeader("Authorization") String authHeader) {
-        return authService.getJwt(authHeader);
+    @PostMapping("/token")
+    public Mono<String> getAccessToken(@RequestHeader("Authorization") String authHeader) {
+        return authService.getAccessToken(authHeader);
     }
 }
