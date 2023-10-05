@@ -15,8 +15,8 @@ public class AuthServiceImpl implements AuthService {
     private final AuthWebClient authWebClient;
 
     @Override
-    public Mono<String> getJwt(String authHeader) {
-        return authWebClient.getJwt(authHeader);
+    public Mono<String> getAccessToken(String authHeader) {
+        return authWebClient.getAccessToken(authHeader);
     }
 
 }

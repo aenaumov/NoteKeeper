@@ -4,6 +4,6 @@ import reactor.core.publisher.Mono;
 
 public interface AuthService {
 
-    Mono<String> getJwt(String authHeader);
+    Mono<String> getAccessToken(String authHeader);
 
 }
