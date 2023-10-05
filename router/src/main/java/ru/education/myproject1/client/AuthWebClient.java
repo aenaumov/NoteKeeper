@@ -1,6 +1,7 @@
 package ru.education.myproject1.client;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -12,21 +13,20 @@ import reactor.core.publisher.Mono;
 @Component
 public class AuthWebClient {
 
-    private static final String AUTH_WEB_SERVER = "http://localhost:9090";
-    private static final String GET_JWT_URL_TEMPLATE = "/auth/jwt/get";
-    private static final String GET_PUBLIC_KEY_URL_TEMPLATE = "/auth/jwt/key";
+    private static final String GET_TOKEN_URL_TEMPLATE = "/auth/token";
+    private static final String GET_PUBLIC_KEY_URL_TEMPLATE = "/auth/public_key";
     private final WebClient webClient;
 
-    public AuthWebClient() {
-        this.webClient = WebClient.builder().baseUrl(AUTH_WEB_SERVER).build();
+    public AuthWebClient(@Value("${auth-server.url}") String server_url) {
+        this.webClient = WebClient.builder().baseUrl(server_url).build();
     }
 
 
-    public Mono<String> getJwt(String authHeader) {
+        public Mono<String> getAccessToken(String authHeader) {
         return webClient
                 .post()
                 .uri(uriBuilder -> uriBuilder
-                        .path(GET_JWT_URL_TEMPLATE)
+                        .path(GET_TOKEN_URL_TEMPLATE)
                         .build())
                 .header("Authorization", authHeader)
                 .retrieve()
