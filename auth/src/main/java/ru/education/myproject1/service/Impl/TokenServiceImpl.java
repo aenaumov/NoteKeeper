@@ -8,6 +8,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.stereotype.Service;
+import ru.education.myproject1.dto.UserToken;
 import ru.education.myproject1.service.RSAKeyService;
 import ru.education.myproject1.service.TokenService;
 
@@ -25,19 +26,19 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public String createJWT() {
-        RSAKey rsaPublicJWK = rsaKeyService.getPublicKey();
-        JWSSigner signer = rsaKeyService.getSigner();
+    public String createAccessToken(final UserToken userToken) {
+        final RSAKey rsaPublicJWK = rsaKeyService.getPublicKey();
+        final JWSSigner signer = rsaKeyService.getSigner();
 
-        JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
+        final JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
                 .claim("scope", "user:read")
-                .claim("role", "USER")
-                .subject("test")
+                .claim("role", userToken.getUserRole())
+                .subject(userToken.getId().toString())
                 .issuer("edu-project")
                 .expirationTime(new Date(new Date().getTime() + TOKEN_LIFETIME))
                 .build();
 
-        SignedJWT signedJWT = new SignedJWT(
+        final SignedJWT signedJWT = new SignedJWT(
                 new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(rsaPublicJWK.getKeyID()).build(),
                 claimsSet);
 
