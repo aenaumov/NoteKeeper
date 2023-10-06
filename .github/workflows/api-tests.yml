@@ -70,7 +70,7 @@ jobs:
       - name: Run Resource Application
         run: |
           chmod a+x ./.github/workflows/runResource.sh
-          ./.github/workflows/run.sh
+          ./.github/workflows/runResource.sh
         shell: bash
 
       #      - name: Build with Maven
@@ -84,7 +84,7 @@ jobs:
       - name: Run Router Application
         run: |
           chmod a+x ./.github/workflows/runRouter.sh
-          ./.github/workflows/run.sh
+          ./.github/workflows/runRouter.sh
         shell: bash
 
       #      - name: Build with Maven
@@ -92,7 +92,7 @@ jobs:
 
       - name: Waiting for Router application is up
         run: |
-          /tmp/wait-for-it.sh -t 60 localhost:9080
+          /tmp/wait-for-it.sh -t 60 localhost:8080
           echo "Router Application is up"
 
 
