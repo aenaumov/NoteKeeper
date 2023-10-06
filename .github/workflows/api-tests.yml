@@ -53,7 +53,7 @@ jobs:
           npm install -g newman
           npm install -g newman-reporter-htmlextra
 
-      - name: Run Application
+      - name: Run Auth Application
         run: |
           chmod a+x ./.github/workflows/run.sh
           ./.github/workflows/run.sh
@@ -62,10 +62,39 @@ jobs:
       #      - name: Build with Maven
       #        run: mvn --batch-mode --update-snapshots package
 
-      - name: Waiting for application is up
+      - name: Waiting for Auth application is up
         run: |
-          /tmp/wait-for-it.sh -t 60 localhost:8080
-          echo "Application is up"
+          /tmp/wait-for-it.sh -t 60 localhost:9090
+          echo "Auth Application is up"
+
+      - name: Run Resource Application
+        run: |
+          chmod a+x ./.github/workflows/runResource.sh
+          ./.github/workflows/run.sh
+        shell: bash
+
+      #      - name: Build with Maven
+      #        run: mvn --batch-mode --update-snapshots package
+
+      - name: Waiting for Resource application is up
+        run: |
+          /tmp/wait-for-it.sh -t 60 localhost:9080
+          echo "Resource Application is up"
+
+      - name: Run Router Application
+        run: |
+          chmod a+x ./.github/workflows/runRouter.sh
+          ./.github/workflows/run.sh
+        shell: bash
+
+      #      - name: Build with Maven
+      #        run: mvn --batch-mode --update-snapshots package
+
+      - name: Waiting for Router application is up
+        run: |
+          /tmp/wait-for-it.sh -t 60 localhost:9080
+          echo "Router Application is up"
+
 
       - name: Run POSTMAN tests
         run: >
