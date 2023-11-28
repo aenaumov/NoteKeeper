@@ -3,6 +3,7 @@ Education project
 
 - API gateway pattern
 - SpringBoot
+- Reactor
 - SpringData JPA
 - SpringSecurity
 - GitHubAction

@@ -1,12 +1,9 @@
 package ru.education.myproject1.repo;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.r2dbc.repository.R2dbcRepository;
+import reactor.core.publisher.Flux;
 import ru.education.myproject1.model.Note;
 
-import java.util.List;
-
-@Repository
-public interface NoteRepository extends JpaRepository<Note, Long> {
-    List<Note> findAllByUserId(Long id);
+public interface NoteRepository extends R2dbcRepository<Note, Long> {
+    Flux<Note> findAllByUserId(Long id);
 }

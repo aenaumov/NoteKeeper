@@ -1,26 +1,23 @@
 package ru.education.myproject1.security;
 
-import com.nimbusds.jose.JOSEException;
-import com.nimbusds.jose.jwk.RSAKey;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
-import ru.education.myproject1.client.AuthWebClient;
-
-import java.security.interfaces.RSAPublicKey;
-import java.text.ParseException;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+
+    @Autowired
+    @Qualifier("accessTokenJwtDecoder")
+    private JwtDecoder accessTokenJwtDecoder;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,23 +25,19 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement((sessionManagement) ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/token").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/user/**").hasAuthority("SCOPE_user:read")
-                        .anyRequest().authenticated()
-                )
-                .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
+                                .requestMatchers("/auth/**", "/error").permitAll()
+//                        .requestMatchers(HttpMethod.GET, "/user/**").hasAuthority("SCOPE_user:read")
+
+                                .anyRequest().authenticated())
+//                .addFilter(TestFilter())
+//                .addFilterBefore(refreshTokenFilter, BearerTokenAuthenticationFilter.class)
+                .oauth2ResourceServer(oauth2 -> oauth2
+                                .jwt(jwt -> jwt.decoder(accessTokenJwtDecoder))
+//                        .jwt(Customizer.withDefaults())
+                );
         return http.build();
     }
-
-    @Bean
-    public JwtDecoder jwtDecoder(AuthWebClient authWebClient) throws JOSEException, ParseException {
-        RSAPublicKey rsaPublicKey = RSAKey.parse(authWebClient.getPublicKey().block()).toRSAPublicKey();
-
-        return NimbusJwtDecoder
-                .withPublicKey(rsaPublicKey)
-                .build();
-    }
-
 
 }

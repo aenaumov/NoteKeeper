@@ -2,21 +2,22 @@ package ru.education.myproject1.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.relational.core.mapping.Table;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.annotation.Id;
 
-@Entity
 @Setter
 @Getter
-@Table(name = "NOTES")
+@Table("NOTES")
 @NoArgsConstructor(access= AccessLevel.PROTECTED, force=true)
 @AllArgsConstructor
 public class Note {
-
     @Id
-    @Column(name = "NOTE_ID")
+    @Column("NOTE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "NOTE")
+    @Column("NOTE")
     private String note;
-    @Column(name = "USERID")
+    @Column("USERID")
     private Long userId;
 }
