@@ -30,11 +30,8 @@ public class AuthController {
     public Mono<String> login(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                               ServerWebExchange serverWebExchange) {
 
-//        log.debug("HEADER " + authHeader);
-
+        log.debug("Received request at auth/login end-point");
         final Mono<MultiValueMap<String, String>> formData = serverWebExchange.getFormData();
-//        formData.subscribe(form -> log.debug("FORM DATA " + form.values()));
-
         return authService.login(authHeader, formData);
     }
 
@@ -42,6 +39,7 @@ public class AuthController {
     public Mono<String> getAccessToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
                                        ServerWebExchange serverWebExchange) {
 
+        log.debug("Received request at auth/refresh end-point");
         final Mono<MultiValueMap<String, String>> formData = serverWebExchange.getFormData();
         final Mono<Jwt> jwt = jwtRefreshService.validateRefreshToken(formData);
         final Mono<UserTokenDto> userTokenDtoMono = jwtRefreshService.getUserFromJwt(jwt);

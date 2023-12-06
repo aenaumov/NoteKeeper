@@ -22,9 +22,9 @@
 									"pm.test(\"Test get all notes of user\", function () {\r",
 									"    var jsonData = pm.response.json();\r",
 									"    pm.expect(jsonData.length).to.eql(3);\r",
-									"    pm.expect(jsonData[0].id).to.eql('2');\r",
+									"    pm.expect(jsonData[0].id).to.eql(2);\r",
 									"    pm.expect(jsonData[0].note).to.eql('user 2 note 1');\r",
-									"    pm.expect(jsonData[0].userId).to.eql('2');\r",
+									"    pm.expect(jsonData[0].userId).to.eql(2);\r",
 									"\r",
 									"});"
 								],
@@ -66,12 +66,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/users/:id",
+									"raw": "{{baseUrl}}/notes/user/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"users",
+										"notes",
+										"user",
 										":id"
 									],
 									"variable": [
@@ -101,12 +102,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/users/:id",
+									"raw": "{{baseUrl}}/notes/user/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"users",
+										"notes",
+										"user",
 										":id"
 									],
 									"variable": [
@@ -136,12 +138,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/users/:id",
+									"raw": "{{baseUrl}}/notes/user/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"users",
+										"notes",
+										"user",
 										":id"
 									],
 									"variable": [
@@ -171,12 +174,13 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/users/:id",
+									"raw": "{{baseUrl}}/notes/user/:id",
 									"host": [
 										"{{baseUrl}}"
 									],
 									"path": [
-										"users",
+										"notes",
+										"user",
 										":id"
 									],
 									"variable": [
@@ -209,28 +213,38 @@
 		"type": "oauth2",
 		"oauth2": [
 			{
-				"key": "accessTokenUrl",
-				"value": "http://localhost:8080/auth/token",
-				"type": "string"
-			},
-			{
-				"key": "clientSecret",
-				"value": "user",
+				"key": "refreshTokenUrl",
+				"value": "http://localhost:8080/auth/refresh",
 				"type": "string"
 			},
 			{
 				"key": "clientId",
-				"value": "user",
+				"value": "testapp",
 				"type": "string"
 			},
 			{
-				"key": "password",
-				"value": "",
+				"key": "clientSecret",
+				"value": "password",
 				"type": "string"
 			},
 			{
 				"key": "username",
-				"value": "",
+				"value": "user",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "password_credentials",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "user",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "http://localhost:8080/auth/login",
 				"type": "string"
 			},
 			{
@@ -241,11 +255,6 @@
 			{
 				"key": "tokenName",
 				"value": "1project",
-				"type": "string"
-			},
-			{
-				"key": "grant_type",
-				"value": "password_credentials",
 				"type": "string"
 			},
 			{

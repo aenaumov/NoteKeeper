@@ -23,12 +23,14 @@ public class SecurityConfig {
 
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
+
 // TODO sessionManagement
                 .authorizeExchange(authorize -> authorize
 
                                 .pathMatchers(HttpMethod.POST,"/auth/**", "/error")
                         .permitAll()
                         .anyExchange().authenticated())
+
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwtSpec -> jwtSpec.jwtDecoder(accessTokenJwtDecoder)));
 

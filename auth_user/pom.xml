@@ -15,26 +15,6 @@
     <version>0.0.1-SNAPSHOT</version>
 
     <dependencies>
-        <!--<dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-&lt;!&ndash;            <version>{netty-version}</version>&ndash;&gt;
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-reactor-netty</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>-->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>

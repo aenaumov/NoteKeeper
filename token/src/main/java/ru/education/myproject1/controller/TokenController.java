@@ -23,13 +23,11 @@ public class TokenController {
     @PostMapping("/access-refresh")
     public Mono<AccessRefreshToken> getAccessRefreshToken(@RequestBody TokenDto tokenDto) {
 
-        log.debug("TOKEN DTO " + tokenDto.getId() +" " + tokenDto.getUserRole());
-
         final Mono<String> accessToken = tokenService.createAccessToken(tokenDto);
         final Mono<String> refreshToken = tokenService.createRefreshToken(tokenDto);
 
-        log.debug("ACCESS TOKEN " + accessToken);
-        log.debug("REFRESH TOKEN " + refreshToken);
+//        log.debug("ACCESS TOKEN " + accessToken);
+//        log.debug("REFRESH TOKEN " + refreshToken);
 
         return convert(accessToken, refreshToken);
     }

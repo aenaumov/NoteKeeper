@@ -28,8 +28,6 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Mono<String> login(final String authHeader, final Mono<MultiValueMap<String, String>> formData) {
 
-//        formData.subscribe(f -> log.debug("TEST " + f.get("username").get(0)));
-
         final Mono<UserTokenDto> user = formData
                 .flatMap(f -> loginUser(convert(f)));
 
@@ -62,7 +60,6 @@ public class AuthServiceImpl implements AuthService {
 
     private String convert(MultiValueMap<String, String> form) {
         final String data = form.getFirst("username") + ":" + form.getFirst("password");
-//        log.debug("username + password " + data);
         return "Basic " + Base64.getEncoder().encodeToString(data.getBytes());
     }
 
