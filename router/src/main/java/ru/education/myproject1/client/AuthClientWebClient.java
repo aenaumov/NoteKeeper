@@ -5,11 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import ru.education.myproject1.dto.ClientTokenDto;
-import ru.education.myproject1.dto.UserTokenDto;
 
 /**
  * WebClient
@@ -26,7 +24,6 @@ public class AuthClientWebClient {
         this.webClient = WebClient.builder().baseUrl(server_url).build();
     }
 
-
     public Mono<ClientTokenDto> Login(String authHeader) {
         return webClient
                 .post()
@@ -35,9 +32,6 @@ public class AuthClientWebClient {
                         .build())
                 .header(HttpHeaders.AUTHORIZATION, authHeader)
                 .contentType(MediaType.APPLICATION_JSON)
-//                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//                .bodyValue(loginUser)
-//                .body(loginUser, UserTokenDto.class)
                 .retrieve()
                 .bodyToMono(ClientTokenDto.class);
     }

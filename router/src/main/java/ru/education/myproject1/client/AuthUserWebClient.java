@@ -22,7 +22,6 @@ public class AuthUserWebClient {
         this.webClient = WebClient.builder().baseUrl(server_url).build();
     }
 
-
     public Mono<UserTokenDto> Login(String authHeader) {
 
         return webClient
@@ -31,8 +30,6 @@ public class AuthUserWebClient {
                         .path(LOGIN_URL_TEMPLATE)
                         .build())
                 .header(HttpHeaders.AUTHORIZATION, authHeader)
-//                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-//                .bodyValue(formData)
                 .retrieve()
                 .bodyToMono(UserTokenDto.class);
     }
