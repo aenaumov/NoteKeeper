@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
-import ru.education.myproject1.client.ResourceWebClient;
+import ru.education.myproject1.service.ResourceService;
 
 import java.util.Map;
 
@@ -20,7 +20,7 @@ import java.util.Map;
 public class ResourceController {
 
     @Autowired
-    ResourceWebClient resourceWebClient;
+    ResourceService resourceService;
 
     @GetMapping("/{id}")
     public Flux<String> getAllNotesOfUser(@PathVariable Long id,
@@ -30,7 +30,7 @@ public class ResourceController {
         final String role = (String) claims.get("role");
         final String user_id = principal.getSubject();
 
-        return resourceWebClient.getAllUserNotes(id, user_id, role);
+        return resourceService.getUserNotes(id, user_id, role);
 
     }
 }
