@@ -15,4 +15,21 @@ public class UserApplication {
         application.run(args);
     }
 
+    /*@Override
+    protected ApplicationContext createApplicationContext() {
+        return new AnnotationConfigApplicationContext();
+    }
+
+    */
+    /*
+     * Specify {@link Configuration @Configuration}
+     * and/or {@link Component @Component}
+     * classes that make up the application configuration. The config classes
+     * are given to {@linkplain #createApplicationContext()}.
+     */
+    /*
+    @Override
+    protected Class<?>[] getConfigClasses() {
+        return new Class[0];
+    }*/
 }

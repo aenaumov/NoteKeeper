@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import ru.education.myproject1.dto.UserTokenDto;
 import ru.education.myproject1.service.AuthService;
-import ru.education.myproject1.valid.JwtRefreshService;
-
-import java.util.Map;
-
+import ru.education.myproject1.service.JwtRefreshService;
 
 @Slf4j
 @RestController
@@ -22,47 +22,31 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
-
     @Autowired
     private JwtRefreshService jwtRefreshService;
 
-    @PostMapping("/login")
+    @PostMapping(path = "/login",
+            consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
     public Mono<String> login(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
-//                              @RequestBody MultiValueMap<String, String> formData,
-                              @RequestParam String grant_type,
-                              @RequestParam String username,
-                              @RequestParam String password
-    ) {
+                              ServerWebExchange serverWebExchange) {
 
-        log.debug("HEADER " + authHeader);
-        log.debug("USERNAME " + username);
-        log.debug("PASSWORD " + password);
+//        log.debug("HEADER " + authHeader);
 
-        return authService.login(authHeader, username, password);
+        final Mono<MultiValueMap<String, String>> formData = serverWebExchange.getFormData();
+//        formData.subscribe(form -> log.debug("FORM DATA " + form.values()));
+
+        return authService.login(authHeader, formData);
     }
 
     @PostMapping("/refresh")
     public Mono<String> getAccessToken(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader,
-                                       @RequestParam String grant_type,
-                                       @RequestParam String refresh_token) {
+                                       ServerWebExchange serverWebExchange) {
 
-        Jwt jwt = jwtRefreshService.validateRefreshToken(refresh_token);
-        Map<String, Object> claims = jwtRefreshService.getClaimsOfRefreshToken(jwt);
-
-        Mono<UserTokenDto> userTokenDtoMono = claimsToClientTokenDto(claims);
+        final Mono<MultiValueMap<String, String>> formData = serverWebExchange.getFormData();
+        final Mono<Jwt> jwt = jwtRefreshService.validateRefreshToken(formData);
+        final Mono<UserTokenDto> userTokenDtoMono = jwtRefreshService.getUserFromJwt(jwt);
 
         return authService.refreshToken(authHeader, userTokenDtoMono);
     }
 
-    /*private String convertFormDataToAuthHeader(final String username, final String password){
-        final String data = username + ":" + password;
-        return "Basic " + Base64.getEncoder().encodeToString(data.getBytes());
-    }*/
-
-    private Mono<UserTokenDto> claimsToClientTokenDto(final Map<String, Object> claims) {
-        final UserTokenDto dto = new UserTokenDto(
-                Long.parseLong((String) claims.get("sub")),
-                (String) claims.get("role"));
-        return Mono.just(dto);
-    }
 }

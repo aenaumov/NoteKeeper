@@ -1,9 +1,7 @@
 package ru.education.myproject1.service.Impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.util.MultiValueMap;
 import reactor.core.publisher.Mono;
 import ru.education.myproject1.client.AuthClientWebClient;
 import lombok.AllArgsConstructor;
@@ -27,23 +25,18 @@ public class AuthServiceImpl implements AuthService {
     private final AuthUserWebClient authUserWebClient;
     private final TokenWebClient tokenWebClient;
 
-//    @Autowired
-//    @Qualifier("refreshTokenJwtDecoder")
-//    private JwtDecoder refreshTokenJwtDecoder;
-
     @Override
-    public Mono<String> login(final String authHeader, final String username, final String password) {
+    public Mono<String> login(final String authHeader, final Mono<MultiValueMap<String, String>> formData) {
 
-        final String authUserHeader = convertFormDataToAuthHeader(username, password);
+//        formData.subscribe(f -> log.debug("TEST " + f.get("username").get(0)));
 
-        final Mono<UserTokenDto> user = loginUser(authUserHeader);
+        final Mono<UserTokenDto> user = formData
+                .flatMap(f -> loginUser(convert(f)));
 
-//        TODO check
-//        Mono<String> loginClient = loginClient(authHeader).doOnSubscribe((str) -> log.debug("CLIENT AUTH " + str));
-//        loginClient.subscribe();
+//        user = user.doOnNext(u -> log.debug("USER " + u.getId()));
 
         final Mono<ClientTokenDto> client = loginClient(authHeader);
-        print(client);
+//        client.subscribe(c -> log.debug("Client " + c.getUsername()));
 
         return tokenWebClient.getToken(user);
     }
@@ -52,7 +45,8 @@ public class AuthServiceImpl implements AuthService {
     public Mono<String> refreshToken(final String authHeader, final Mono<UserTokenDto> user) {
 
         final Mono<ClientTokenDto> client = loginClient(authHeader);
-        print(client);
+
+//        client.subscribe(c -> log.debug("Client " + c.getUsername()));
 
         return tokenWebClient.getToken(user);
     }
@@ -62,24 +56,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private Mono<ClientTokenDto> loginClient(final String authHeader) {
-        /*try{
-            Mono<ClientTokenDto> clientTokenDtoMono = authClientWebClient.Login(authHeader);
-        }
-        catch (final Throwable e){
-            log.info("__error__  {}", e.getMessage(), e);
-            return null;
-        }*/
-
         return authClientWebClient.Login(authHeader);
     }
 
-    private String convertFormDataToAuthHeader(final String username, final String password) {
-        final String data = username + ":" + password;
-        return "Basic " + Base64.getEncoder().encodeToString(data.getBytes());
-    }
 
-    private void print(Mono<ClientTokenDto> client) {
-        log.debug("Client " + client.block().getUsername());
+    private String convert(MultiValueMap<String, String> form) {
+        final String data = form.getFirst("username") + ":" + form.getFirst("password");
+//        log.debug("username + password " + data);
+        return "Basic " + Base64.getEncoder().encodeToString(data.getBytes());
     }
 
 }

@@ -18,11 +18,13 @@ public class PublicKeyController {
 
     @GetMapping("/access")
     public String getPublicKeyAccessToken() {
+        log.debug("send public key for access token");
         return rsaKeyService.getPublicKeyAccessToken().toJSONString();
     }
 
     @GetMapping("/refresh")
     public String getPublicKeyRefreshToken() {
+        log.debug("send public key for refresh token");
         return rsaKeyService.getPublicKeyRefreshToken().toJSONString();
     }
 

@@ -9,7 +9,6 @@ import ru.education.myproject1.service.NoteService;
 
 @Slf4j
 @RestController
-
 @RequestMapping("/notes/user")
 public class NoteController {
 

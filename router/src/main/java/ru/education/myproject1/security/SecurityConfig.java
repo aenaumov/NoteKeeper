@@ -4,39 +4,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
-import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
+import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
+import org.springframework.security.web.server.SecurityWebFilterChain;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 public class SecurityConfig {
 
     @Autowired
     @Qualifier("accessTokenJwtDecoder")
-    private JwtDecoder accessTokenJwtDecoder;
+    private ReactiveJwtDecoder accessTokenJwtDecoder;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
+
         http
-                .csrf(AbstractHttpConfigurer::disable)
-                .sessionManagement((sessionManagement) ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+// TODO sessionManagement
+                .authorizeExchange(authorize -> authorize
 
-                .authorizeHttpRequests(authorize -> authorize
-                                .requestMatchers("/auth/**", "/error").permitAll()
-//                        .requestMatchers(HttpMethod.GET, "/user/**").hasAuthority("SCOPE_user:read")
-
-                                .anyRequest().authenticated())
-//                .addFilter(TestFilter())
-//                .addFilterBefore(refreshTokenFilter, BearerTokenAuthenticationFilter.class)
+                                .pathMatchers(HttpMethod.POST,"/auth/**", "/error")
+                        .permitAll()
+                        .anyExchange().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2
-                                .jwt(jwt -> jwt.decoder(accessTokenJwtDecoder))
-//                        .jwt(Customizer.withDefaults())
-                );
+                        .jwt(jwtSpec -> jwtSpec.jwtDecoder(accessTokenJwtDecoder)));
+
         return http.build();
     }
 
