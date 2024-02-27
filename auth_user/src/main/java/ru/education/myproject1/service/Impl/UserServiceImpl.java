@@ -12,6 +12,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Objects;
+
 
 @Service
 @Transactional
@@ -24,18 +26,16 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public Mono<UserDetails> findByUsername(String username) throws UsernameNotFoundException {
 
+        return this.convert(
+                this.userReactiveRepository.getUserByUsername(username)
+                        .filter(Objects::nonNull)
+                        .switchIfEmpty(Mono.error(new UsernameNotFoundException("User ‘" + username + "’ not found")))
+        );
 
-        Mono<User> userMono = userReactiveRepository.getUserByUsername(username);
-
-// TODO
-        if (userMono == null){
-            throw new UsernameNotFoundException("User ‘" + username + "’ not found");
-        }
-
-        return convert(userMono);
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Mono<UserTokenDto> getUserForToken(String username) {
         Mono<User> user = userReactiveRepository.getUserByUsername(username);
         return UserMapper.toUserToken(user);

@@ -24,7 +24,7 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
 
                 .authorizeExchange((authorize) -> authorize
-                        .pathMatchers("/auth/**")
+                        .pathMatchers("/user/auth/**")
                         .hasAnyRole("ADMIN", "USER")
                         .pathMatchers("/login")
                         .permitAll())
