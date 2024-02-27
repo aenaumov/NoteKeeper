@@ -4,11 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.util.matcher.PathPatternParserServerWebExchangeMatcher;
 
 @Configuration
 @EnableWebFluxSecurity
@@ -18,8 +21,29 @@ public class SecurityConfig {
     @Qualifier("accessTokenJwtDecoder")
     private ReactiveJwtDecoder accessTokenJwtDecoder;
 
+    @Autowired
+    private ClientReactiveAuthenticationManager authenticationManager;
+
+    @Order(Ordered.HIGHEST_PRECEDENCE)
     @Bean
-    public SecurityWebFilterChain filterChain(ServerHttpSecurity http) {
+    public SecurityWebFilterChain filterChainHttpBasic(ServerHttpSecurity http) {
+
+        http
+                .securityMatcher(new PathPatternParserServerWebExchangeMatcher("/auth/**"))
+                .csrf(ServerHttpSecurity.CsrfSpec::disable)
+
+                // TODO sessionManagement
+                .authorizeExchange(authorize -> authorize
+                        .anyExchange().authenticated())
+                .httpBasic(httpBasicSpec -> httpBasicSpec.authenticationManager(authenticationManager)
+                );
+
+        return http.build();
+    }
+
+
+    @Bean
+    public SecurityWebFilterChain filterChainJWT(ServerHttpSecurity http) {
 
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
@@ -27,7 +51,7 @@ public class SecurityConfig {
 // TODO sessionManagement
                 .authorizeExchange(authorize -> authorize
 
-                                .pathMatchers(HttpMethod.POST,"/auth/**", "/error")
+                        .pathMatchers(HttpMethod.POST, "/error")
                         .permitAll()
                         .anyExchange().authenticated())
 

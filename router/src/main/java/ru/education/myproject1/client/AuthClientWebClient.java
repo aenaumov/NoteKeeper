@@ -3,11 +3,10 @@ package ru.education.myproject1.client;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import ru.education.myproject1.dto.ClientTokenDto;
 
 /**
  * WebClient
@@ -16,34 +15,22 @@ import ru.education.myproject1.dto.ClientTokenDto;
 @Component
 public class AuthClientWebClient {
 
-    private static final String LOGIN_URL_TEMPLATE = "/auth/login";
-    private static final String ACCESS_TOKEN_URL_TEMPLATE = "/auth/token/access";
+    private static final String AUTH_URL_TEMPLATE = "/client/auth/authentication";
     private final WebClient webClient;
 
     public AuthClientWebClient(@Value("${auth-client-server.url}") String server_url) {
         this.webClient = WebClient.builder().baseUrl(server_url).build();
     }
 
-    public Mono<ClientTokenDto> Login(String authHeader) {
+    public Mono<ResponseEntity<Boolean>> authenticationAtClientServer(String authHeader) {
         return webClient
-                .post()
+                .get()
                 .uri(uriBuilder -> uriBuilder
-                        .path(LOGIN_URL_TEMPLATE)
+                        .path(AUTH_URL_TEMPLATE)
                         .build())
                 .header(HttpHeaders.AUTHORIZATION, authHeader)
-                .contentType(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToMono(ClientTokenDto.class);
+                .toEntity(Boolean.class);
     }
 
-    public Mono<String> getAccessToken(String authHeader) {
-        return webClient
-                .post()
-                .uri(uriBuilder -> uriBuilder
-                        .path(ACCESS_TOKEN_URL_TEMPLATE)
-                        .build())
-                .header(HttpHeaders.AUTHORIZATION, authHeader)
-                .retrieve()
-                .bodyToMono(String.class);
-    }
 }

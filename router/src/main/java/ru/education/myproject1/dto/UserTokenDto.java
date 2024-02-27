@@ -13,4 +13,5 @@ public class UserTokenDto {
 
     private Long id;
     private String userRole;
+    private Boolean isAuthorized = false;
 }
