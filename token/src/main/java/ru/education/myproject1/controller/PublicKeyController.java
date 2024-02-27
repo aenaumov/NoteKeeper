@@ -10,7 +10,7 @@ import ru.education.myproject1.service.RSAKeyService;
 
 @Slf4j
 @RestController
-@RequestMapping("auth/public_key")
+@RequestMapping("/token/public_key")
 public class PublicKeyController {
 
     @Autowired

@@ -23,17 +23,7 @@ public class TokenController {
     @PostMapping("/access-refresh")
     public Mono<AccessRefreshToken> getAccessRefreshToken(@RequestBody TokenDto tokenDto) {
 
-        final Mono<String> accessToken = tokenService.createAccessToken(tokenDto);
-        final Mono<String> refreshToken = tokenService.createRefreshToken(tokenDto);
-
-//        log.debug("ACCESS TOKEN " + accessToken);
-//        log.debug("REFRESH TOKEN " + refreshToken);
-
-        return convert(accessToken, refreshToken);
+        return tokenService.createToken(tokenDto);
     }
 
-    private Mono<AccessRefreshToken> convert(Mono<String> accessToken, Mono<String> refreshToken){
-        return Mono.zip(accessToken, refreshToken)
-                .map(tuple -> new AccessRefreshToken(tuple.getT1(), tuple.getT2()));
-    }
 }

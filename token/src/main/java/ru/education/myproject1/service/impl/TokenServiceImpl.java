@@ -9,6 +9,7 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+import ru.education.myproject1.dto.AccessRefreshToken;
 import ru.education.myproject1.dto.TokenDto;
 import ru.education.myproject1.service.RSAKeyService;
 import ru.education.myproject1.service.TokenService;
@@ -28,7 +29,11 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public Mono<String> createAccessToken(final TokenDto tokenDto) {
+    public Mono<AccessRefreshToken> createToken(TokenDto tokenDto) {
+        return convert(this.createAccessToken(tokenDto), this.createRefreshToken(tokenDto));
+    }
+
+    private Mono<String> createAccessToken(final TokenDto tokenDto) {
         final RSAKey rsaPublicJWK = rsaKeyService.getPublicKeyAccessToken();
         final JWSSigner signer = rsaKeyService.getSignerAccessToken();
         final JWTClaimsSet claimsSet = new JWTClaimsSet.Builder()
@@ -42,8 +47,7 @@ public class TokenServiceImpl implements TokenService {
         return Mono.just(signedJWT.serialize());
     }
 
-    @Override
-    public Mono<String> createRefreshToken(TokenDto tokenDto) {
+    private Mono<String> createRefreshToken(final TokenDto tokenDto) {
         final RSAKey rsaPublicJWK = rsaKeyService.getPublicKeyRefreshToken();
         final JWSSigner signer = rsaKeyService.getSignerRefreshToken();
         final ZonedDateTime time = ZonedDateTime.now().plusDays(REFRESH_TOKEN_LIFETIME);
@@ -69,4 +73,10 @@ public class TokenServiceImpl implements TokenService {
         }
         return signedJWT;
     }
+
+    private Mono<AccessRefreshToken> convert(Mono<String> accessToken, Mono<String> refreshToken){
+        return Mono.zip(accessToken, refreshToken)
+                .map(tuple -> new AccessRefreshToken(tuple.getT1(), tuple.getT2()));
+    }
+
 }
