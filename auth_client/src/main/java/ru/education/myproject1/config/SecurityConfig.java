@@ -24,13 +24,10 @@ public class SecurityConfig {
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
 
                 .authorizeExchange((authorize) -> authorize
-                        .pathMatchers("/auth/**")
+                        .pathMatchers("/client/auth/**")
                         .hasAnyRole("CLIENT")
-//                        .pathMatchers("/login")
-//                        .permitAll()
                         )
                 .httpBasic(withDefaults());
-
 
         return http.build();
     }
