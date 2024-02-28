@@ -3,7 +3,7 @@ name: Java CI
 on:
   push:
     branches:
-      - 'test'
+      - 'develop'
 
 #pull_request:
 #  workflow_call:
@@ -43,17 +43,35 @@ jobs:
           ./.github/workflows/build.sh
         shell: bash
 
-      - name: Install Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
+      #      - name: Install Node
+      #        uses: actions/setup-node@v3
+      #        with:
+      #          node-version: '16.x'
+      #
+      #      - name: Install newman
+      #        run: |
+      #          npm install -g newman
+      #          npm install -g newman-reporter-htmlextra
 
-      - name: Install newman
+      - name: Install Postman CLI
         run: |
-          npm install -g newman
-          npm install -g newman-reporter-htmlextra
+          curl -o- "https://dl-cli.pstmn.io/install/linux64.sh" | sh
 
-      - name: Run Auth Application
+      - name: Run Token Application
+        run: |
+          chmod a+x ./.github/workflows/run.sh
+          ./.github/workflows/runToken.sh
+        shell: bash
+
+      #      - name: Build with Maven
+      #        run: mvn --batch-mode --update-snapshots package
+
+      - name: Waiting for Token application is up
+        run: |
+          /tmp/wait-for-it.sh -t 60 localhost:9060
+          echo "Token Application is up"
+
+      - name: Run Auth_User Application
         run: |
           chmod a+x ./.github/workflows/run.sh
           ./.github/workflows/run.sh
@@ -62,10 +80,24 @@ jobs:
       #      - name: Build with Maven
       #        run: mvn --batch-mode --update-snapshots package
 
-      - name: Waiting for Auth application is up
+      - name: Waiting for Auth_User application is up
+        run: |
+          /tmp/wait-for-it.sh -t 60 localhost:9070
+          echo "Auth_User Application is up"
+
+      - name: Run Auth_Client Application
+        run: |
+          chmod a+x ./.github/workflows/run.sh
+          ./.github/workflows/runClient.sh
+        shell: bash
+
+      #      - name: Build with Maven
+      #        run: mvn --batch-mode --update-snapshots package
+
+      - name: Waiting for Auth_Client application is up
         run: |
           /tmp/wait-for-it.sh -t 60 localhost:9090
-          echo "Auth Application is up"
+          echo "Auth_Client Application is up"
 
       - name: Run Resource Application
         run: |
@@ -94,14 +126,22 @@ jobs:
         run: |
           /tmp/wait-for-it.sh -t 60 localhost:8080
           echo "Router Application is up"
+      
+
+      #      - name: Run POSTMAN tests
+      #        run: >
+      #          newman run ./postman/my-project-1.json
+      #          --delay-request 50 -r cli,htmlextra
+
+      #          --verbose --color on --reporter-htmlextra-darkTheme
+      #          --reporter-htmlextra-export reports/myProject.html
+      #          --reporter-htmlextra-title "Отчет по тестам"
+      #          --reporter-htmlextra-logs true
+      #          --reporter-htmlextra-template ./tests/.github/workflows/dashboard-template.hbs
 
 
-      - name: Run POSTMAN tests
-        run: >
-          newman run ./postman/my-project-1.json
-          --delay-request 50 -r cli,htmlextra
-#          --verbose --color on --reporter-htmlextra-darkTheme
-#          --reporter-htmlextra-export reports/myProject.html
-#          --reporter-htmlextra-title "Отчет по тестам"
-#          --reporter-htmlextra-logs true
-#          --reporter-htmlextra-template ./tests/.github/workflows/dashboard-template.hbs
+      - name: Login to Postman CLI
+        run: postman login --with-api-key ${{ secrets.POSTMAN_API_KEY }}
+      - name: Run API tests
+        run: |
+          postman collection run "21589145-4f14ee17-fca9-4ba5-a491-e112cfa0bb38"
