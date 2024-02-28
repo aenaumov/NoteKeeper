@@ -7,26 +7,25 @@
 	},
 	"item": [
 		{
-			"name": "create users",
+			"name": "get notes",
 			"item": [
 				{
-					"name": "Добавление нового пользователя user_1",
+					"name": "all notes of user get",
 					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
 						{
 							"listen": "test",
 							"script": {
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Test get all notes of user\", function () {\r",
+									"    var jsonData = pm.response.json();\r",
+									"    pm.expect(jsonData.length).to.eql(3);\r",
+									"    pm.expect(jsonData[0].id).to.eql(2);\r",
+									"    pm.expect(jsonData[0].note).to.eql('user 2 note 1');\r",
+									"    pm.expect(jsonData[0].userId).to.eql(2);\r",
+									"\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -34,102 +33,237 @@
 						}
 					],
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"disabled": true
-							},
-							{
 								"key": "Accept",
-								"value": "application/json",
-								"disabled": true
+								"value": "*/*"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user_1\",\r\n    \"password\": \"qwerty\",\r\n    \"matchingPassword\": \"qwerty\",\r\n    \"email\": \"user_1@user.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
 						"url": {
-							"raw": "{{baseUrl}}/users",
+							"raw": "{{baseUrl}}/notes/user/:id",
 							"host": [
 								"{{baseUrl}}"
 							],
 							"path": [
-								"users"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Добавление нового пользователя user_2",
-					"event": [
-						{
-							"listen": "prerequest",
-							"script": {
-								"exec": [
-									""
-								],
-								"type": "text/javascript"
-							}
-						},
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Status code is 200\", function () {\r",
-									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json",
-								"disabled": true
-							},
-							{
-								"key": "Accept",
-								"value": "application/json",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user_2\",\r\n    \"password\": \"mypassword\",\r\n    \"matchingPassword\": \"mypassword\",\r\n    \"email\": \"user_2@user.com\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{baseUrl}}/users",
-							"host": [
-								"{{baseUrl}}"
+								"notes",
+								"user",
+								":id"
 							],
-							"path": [
-								"users"
+							"variable": [
+								{
+									"key": "id",
+									"value": "2",
+									"description": "(Required) "
+								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/notes/user/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"notes",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-29029902",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Not Found",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/notes/user/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"notes",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-29029902",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Conflict",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/notes/user/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"notes",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-29029902",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/notes/user/:id",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"notes",
+										"user",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "-29029902",
+											"description": "(Required) "
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "*/*"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
 				}
 			]
 		}
 	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "refreshTokenUrl",
+				"value": "http://localhost:8080/auth/refresh",
+				"type": "string"
+			},
+			{
+				"key": "clientId",
+				"value": "testapp",
+				"type": "string"
+			},
+			{
+				"key": "clientSecret",
+				"value": "password",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "user",
+				"type": "string"
+			},
+			{
+				"key": "grant_type",
+				"value": "password_credentials",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "user",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "http://localhost:8080/auth/login",
+				"type": "string"
+			},
+			{
+				"key": "client_authentication",
+				"value": "header",
+				"type": "string"
+			},
+			{
+				"key": "tokenName",
+				"value": "1project",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",

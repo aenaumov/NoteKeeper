@@ -1,10 +1,13 @@
 Education project
 
-used stack
+- API gateway pattern
+- OAuth 2.0
 - SpringBoot
-- SpringData JPA
+- Reactor
+- Spring Flux
+- SpringData
 - SpringSecurity
 - GitHubAction
-- Postman
+- Postman OAuth 2.0
 - Shell Script
-- -microservices
+- JWT
