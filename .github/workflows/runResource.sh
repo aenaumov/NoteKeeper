@@ -1,2 +1,2 @@
 cd resource
-nohup mvn spring-boot:run
+nohup mvn spring-boot:run &

@@ -59,7 +59,7 @@ jobs:
 
       - name: Run Token Application
         run: |
-          chmod a+x ./.github/workflows/run.sh
+          chmod a+x ./.github/workflows/runToken.sh
           ./.github/workflows/runToken.sh
         shell: bash
 
@@ -73,8 +73,8 @@ jobs:
 
       - name: Run Auth_User Application
         run: |
-          chmod a+x ./.github/workflows/run.sh
-          ./.github/workflows/run.sh
+          chmod a+x ./.github/workflows/runUser.sh
+          ./.github/workflows/runUser.sh
         shell: bash
 
       #      - name: Build with Maven
@@ -87,7 +87,7 @@ jobs:
 
       - name: Run Auth_Client Application
         run: |
-          chmod a+x ./.github/workflows/run.sh
+          chmod a+x ./.github/workflows/runClient.sh
           ./.github/workflows/runClient.sh
         shell: bash
 
