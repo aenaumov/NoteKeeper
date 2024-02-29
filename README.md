@@ -29,8 +29,8 @@ Server application has microservice structure:
 
 It's supposed that both user and client application are already registered.
 Example of request client application should send to receive JWT:
-Credentials of client application are sent in Basic authorization header
-Credentials of user are sent in body request
+Credentials of client application are sent in Basic authorization header.
+Credentials of user are sent in body request.
 
 ```
 POST http://localhost:8080/auth/token
@@ -52,7 +52,7 @@ Example of JWT:
 Received JWT contains both access and refresh tokens.
 
 Example of request for receiving of all notes of user with id 2.
-Valid access token is sent in Bearer authorization header
+Valid access token is sent in Bearer authorization header.
 
 ```
 GET http://localhost:8080/notes/user/2
@@ -61,8 +61,8 @@ Authorization: Bearer access_token
 ```
 
 For refreshing of JWT should send request with valid refresh token. 
-Credentials of client application are sent in Basic authorization header
-Refresh token is sent in body request
+Credentials of client application are sent in Basic authorization header.
+Refresh token is sent in body request.
 
 ```
 POST http://localhost:8080/auth/refresh
