@@ -1,6 +1,6 @@
-*Back-end for NoteKeeper application*
+# **Back-end for NoteKeeper application**
 
-**Used stack**
+## **Used stack**
 - Java 17
 - API gateway pattern
 - OAuth 2.0
@@ -32,7 +32,8 @@ Example of request client application should send to receive JWT:
 Credentials of client application are sent in Basic authorization header
 Credentials of user are sent in body request
 
-'''POST http://localhost:8080/auth/token
+```
+POST http://localhost:8080/auth/token
 Request Headers
 Content-Type: application/x-www-form-urlencoded
 Authorization: Basic dGVzdGFwcDpwYXNzd29yZA==
@@ -40,25 +41,30 @@ Request Body
 grant_type: "password"
 username: "user"
 password: "user"
-'''
+```
 
 Example of JWT:
+```
 {"type":"Bearer",
 "access_token":"eyJraWQiOiIxMjMiLCJhbGci",
 "refresh_token":"eyJraWQiOiIxMjMiLCJhbGc"}
+```
 Received JWT contains both access and refresh tokens.
 
 Example of request for receiving of all notes of user with id 2.
 Valid access token is sent in Bearer authorization header
 
+```
 GET http://localhost:8080/notes/user/2
 Request Headers
 Authorization: Bearer access_token
+```
 
 For refreshing of JWT should send request with valid refresh token. 
 Credentials of client application are sent in Basic authorization header
-Valid refresh token is sent in body request
+Refresh token is sent in body request
 
+```
 POST http://localhost:8080/auth/refresh
 Request Headers
 Content-Type: application/x-www-form-urlencoded
@@ -66,3 +72,4 @@ Authorization: Basic dGVzdGFwcDpwYXNzd29yZA==
 Request Body
 refresh_token: "eyJraWQiOiIxMjMiLCJhbGciOiJSUzI1Ni"
 grant_type: "refresh_token"
+```
