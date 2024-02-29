@@ -1,11 +1,100 @@
 {
 	"info": {
-		"_postman_id": "f155c41e-0a36-4390-8d20-7afed792415b",
-		"name": "my-project-1",
+		"_postman_id": "3b94d2a7-a6ee-4735-be9d-722f1571ddde",
+		"name": "my-project-1_API",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "21589145"
 	},
 	"item": [
+		{
+			"name": "authentication",
+			"item": [
+				{
+					"name": "authenticte",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// pm.test(\"Status code is 200\", function () {\r",
+									"//     pm.response.to.have.status(200);\r",
+									"// });\r",
+									"// pm.test(\"Test get all notes of user\", function () {\r",
+									"//     var jsonData = pm.response.json();\r",
+									"//     pm.expect(jsonData.length).to.eql(3);\r",
+									"//     pm.expect(jsonData[0].id).to.eql(2);\r",
+									"//     pm.expect(jsonData[0].note).to.eql('user 2 note 1');\r",
+									"//     pm.expect(jsonData[0].userId).to.eql(2);\r",
+									"\r",
+									"// });\r",
+									"\r",
+									"\r",
+									"const respBody = pm.response.json();\r",
+									"const jwtToken = respBody.access_token;\r",
+									"pm.environment.set(\"access_token\", jwtToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "testapp",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "*/*"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "user",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "user",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/auth/token",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
 		{
 			"name": "get notes",
 			"item": [
@@ -33,6 +122,16 @@
 						}
 					],
 					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [
 							{
@@ -213,8 +312,13 @@
 		"type": "oauth2",
 		"oauth2": [
 			{
-				"key": "refreshTokenUrl",
-				"value": "http://localhost:8080/auth/refresh",
+				"key": "tokenType",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "accessToken",
+				"value": "eyJraWQiOiIxMjMiLCJhbGciOiJSUzI1NiJ9.eyJpc3MiOiJlZHUtcHJvamVjdCIsInN1YiI6IjIiLCJyb2xlIjoiVVNFUiIsImV4cCI6MTcwOTIyMzA3OCwic2NvcGUiOiJ1c2VyOnJlYWQifQ.5st8Id-FS4BU1kpaQvdpA1Q6pTDFSsgvqdiCGKQBk6D6i5SmpqINj0_CAO3VLP2CvxmscZti1wDWHQnoYYkM-gmsdfQvwGkWfJUf4TtkDkIiGcgBkJrGFg3G-x_FxUWUJkJYMf29bpdtN0XPCbwHoncdUQhieveOWqOhQTx1788OBwcN_BbXCfpJOe4UrXOXgwrjMj9eaQgyNzDXy4IZnJZgcFRSSpxcC0h1wPaZrKjN3pl5mUuHuTDELMXIrCa0b33fbyh4QnhYWRfNZ5Je1NJDarM6e32oPd0qZ9O6BSI6uelhN6pLBbgBHCUIMye0LI80g7uW8TtQo1U7d3skFA",
 				"type": "string"
 			},
 			{
@@ -223,13 +327,23 @@
 				"type": "string"
 			},
 			{
+				"key": "username",
+				"value": "user",
+				"type": "string"
+			},
+			{
+				"key": "accessTokenUrl",
+				"value": "http://localhost:8080/auth/token",
+				"type": "string"
+			},
+			{
 				"key": "clientSecret",
 				"value": "password",
 				"type": "string"
 			},
 			{
-				"key": "username",
-				"value": "user",
+				"key": "refreshTokenUrl",
+				"value": "http://localhost:8080/auth/refresh",
 				"type": "string"
 			},
 			{
@@ -240,11 +354,6 @@
 			{
 				"key": "password",
 				"value": "user",
-				"type": "string"
-			},
-			{
-				"key": "accessTokenUrl",
-				"value": "http://localhost:8080/auth/login",
 				"type": "string"
 			},
 			{
@@ -289,6 +398,10 @@
 			"key": "baseUrl",
 			"value": "http://localhost:8080",
 			"type": "string"
+		},
+		{
+			"key": "jwt_token",
+			"value": "test"
 		}
 	]
 }
