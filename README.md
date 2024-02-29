@@ -1,4 +1,4 @@
-*back-end for NoteKeeper application*
+*Back-end for NoteKeeper application*
 
 **Used stack**
 - Java 17
