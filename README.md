@@ -13,6 +13,7 @@
 - Hibernate
 - GitHubAction
 - Postman OAuth 2.0
+- H2 database
 - Shell Script
 - Lombok
 - Maven
