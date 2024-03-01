@@ -13,6 +13,7 @@
 - GitHubAction
 - Postman OAuth 2.0
 - Shell Script
+- Lombok
 
 Present realization of project is simplified. Needed checks for reality project aren't realized in it. 
 Docker also isn't used. 
