@@ -10,6 +10,7 @@
 - Spring Flux
 - SpringData
 - SpringSecurity
+- Hibernate
 - GitHubAction
 - Postman OAuth 2.0
 - Shell Script
