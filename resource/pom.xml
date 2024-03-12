@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>ru.education</groupId>
-        <artifactId>my-project-1</artifactId>
+        <artifactId>note_keeper</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
