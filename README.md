@@ -10,9 +10,13 @@
 - Spring Flux
 - SpringData
 - SpringSecurity
+- Hibernate
 - GitHubAction
 - Postman OAuth 2.0
+- H2 database
 - Shell Script
+- Lombok
+- Maven
 
 Present realization of project is simplified. Needed checks for reality project aren't realized in it. 
 Docker also isn't used. 
