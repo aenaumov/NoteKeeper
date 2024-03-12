@@ -12,10 +12,8 @@ public final class UserMapper {
     }
 
     public static Mono<UserTokenDto> toUserToken(Mono<User> user) {
-        return user.flatMap(
-                u -> Mono.just(
-                        new UserTokenDto(u.getId(), u.getUserRole())
-                )
+        return user
+                .map(u -> new UserTokenDto(u.getId(), u.getUserRole())
         );
 
     }
