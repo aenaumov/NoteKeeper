@@ -17,6 +17,7 @@ public class NoteServiceImpl implements NoteService {
 
 
     @Override
+    @Transactional(readOnly = true)
     public Flux<Note> getNotes(Long id, Long user_id, String role) {
 
 //        TODO проверка id and role

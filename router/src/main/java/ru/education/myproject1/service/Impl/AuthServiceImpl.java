@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
+@Transactional
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
@@ -33,6 +33,7 @@ public class AuthServiceImpl implements AuthService {
     private ReactiveJwtDecoder refreshTokenJwtDecoder;
 
     @Override
+    @Transactional(readOnly = true)
     public Mono<ResponseEntity<String>> getToken(final Mono<MultiValueMap<String, String>> formData) {
 
         return tokenWebClient.getToken(formData
@@ -44,6 +45,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Mono<ResponseEntity<String>> refreshToken(final Mono<MultiValueMap<String, String>> formData) {
 
         return tokenWebClient.getToken(
