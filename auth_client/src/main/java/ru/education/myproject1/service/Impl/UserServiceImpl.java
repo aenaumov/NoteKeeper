@@ -12,6 +12,8 @@ import ru.education.myproject1.repo.UserReactiveRepository;
 import ru.education.myproject1.service.UserService;
 import ru.education.myproject1.util.UserMapper;
 
+import java.util.Objects;
+
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
@@ -22,12 +24,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public Mono<UserDetails> findByUsername(String username) throws UsernameNotFoundException {
-        Mono<User> userMono = userReactiveRepository.findUserByUsername(username);
-        if (userMono == null) {
-            throw new UsernameNotFoundException("User ‘" + username + "’ not found");
-        }
-
-        return convert(userMono);
+        return this.convert(
+                this.userReactiveRepository.findUserByUsername(username)
+                        .filter(Objects::nonNull)
+                        .switchIfEmpty(
+                                Mono.error(new UsernameNotFoundException("Client ‘" + username + "’ not found"))));
     }
 
     @Override

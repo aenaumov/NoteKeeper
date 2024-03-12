@@ -31,7 +31,6 @@ public class UserServiceImpl implements UserService {
                         .filter(Objects::nonNull)
                         .switchIfEmpty(Mono.error(new UsernameNotFoundException("User ‘" + username + "’ not found")))
         );
-
     }
 
     @Override
@@ -51,6 +50,5 @@ public class UserServiceImpl implements UserService {
                 .roles(m.getUserRole())
                 .build()
         );
-
     }
 }
