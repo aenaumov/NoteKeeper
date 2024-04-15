@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.jwt.ReactiveJwtDecoder;
 import org.springframework.util.MultiValueMap;
 import reactor.core.publisher.Mono;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.education.myproject1.client.AuthUserWebClient;
 import ru.education.myproject1.client.TokenWebClient;
 import ru.education.myproject1.dto.UserTokenDto;
@@ -21,7 +20,6 @@ import java.util.Map;
 
 @Slf4j
 @Service
-@Transactional
 public class AuthServiceImpl implements AuthService {
 
     @Autowired
@@ -33,7 +31,6 @@ public class AuthServiceImpl implements AuthService {
     private ReactiveJwtDecoder refreshTokenJwtDecoder;
 
     @Override
-    @Transactional(readOnly = true)
     public Mono<ResponseEntity<String>> getToken(final Mono<MultiValueMap<String, String>> formData) {
 
         return tokenWebClient.getToken(formData
@@ -45,7 +42,6 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Mono<ResponseEntity<String>> refreshToken(final Mono<MultiValueMap<String, String>> formData) {
 
         return tokenWebClient.getToken(
