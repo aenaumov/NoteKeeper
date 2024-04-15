@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 import ru.education.myproject1.model.User;
 import ru.education.myproject1.dto.UserTokenDto;
@@ -15,14 +14,12 @@ import ru.education.myproject1.util.UserMapper;
 import java.util.Objects;
 
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserReactiveRepository userReactiveRepository;
 
     @Override
-    @Transactional(readOnly = true)
     public Mono<UserDetails> findByUsername(String username) throws UsernameNotFoundException {
         return this.convert(
                 this.userReactiveRepository.findUserByUsername(username)
@@ -32,7 +29,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Mono<UserTokenDto> getUserForToken(String username) {
         Mono<User> user = userReactiveRepository.findUserByUsername(username);
         return UserMapper.toUserToken(user);
