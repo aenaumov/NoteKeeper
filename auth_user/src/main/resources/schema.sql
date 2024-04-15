@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS USERS
     USER_PASSWORD VARCHAR(200)                            NOT NULL,
     VERIFIED      BOOLEAN                                 NOT NULL,
     USER_ROLE     VARCHAR(10)                             NOT NULL,
+    VERSION       BIGINT                                  NOT NULL,
     CONSTRAINT USER_PK PRIMARY KEY (USER_ID),
     CONSTRAINT USERNAME_UNIQUE UNIQUE (USERNAME),
     CONSTRAINT EMAIL_UNIQUE UNIQUE (EMAIL)
