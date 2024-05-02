@@ -11,8 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
-
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,7 +23,6 @@ public class UserServiceImpl implements UserService {
 
         return this.convert(
                 this.userReactiveRepository.getUserByUsername(username)
-                        .filter(Objects::nonNull)
                         .switchIfEmpty(Mono.error(new UsernameNotFoundException("User ‘" + username + "’ not found")))
         );
     }

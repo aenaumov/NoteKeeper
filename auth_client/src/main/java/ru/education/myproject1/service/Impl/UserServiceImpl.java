@@ -11,8 +11,6 @@ import ru.education.myproject1.repo.UserReactiveRepository;
 import ru.education.myproject1.service.UserService;
 import ru.education.myproject1.util.UserMapper;
 
-import java.util.Objects;
-
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -23,7 +21,6 @@ public class UserServiceImpl implements UserService {
     public Mono<UserDetails> findByUsername(String username) throws UsernameNotFoundException {
         return this.convert(
                 this.userReactiveRepository.findUserByUsername(username)
-                        .filter(Objects::nonNull)
                         .switchIfEmpty(
                                 Mono.error(new UsernameNotFoundException("Client ‘" + username + "’ not found"))));
     }
